@@ -55,6 +55,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse)=>{
         userData.userEmail = 'testemail';
         fetchOptions.body = JSON.stringify(userData);
         fetch(url, fetchOptions)
+        console.log("fetching...")
         .then(({body})=>{
           // return JSON.parse(body);
         })
