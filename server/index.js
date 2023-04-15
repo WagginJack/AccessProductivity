@@ -16,8 +16,8 @@ async function makeAsyncGPT(){
 }
 
 app.get('/', (req, res) => {
-    res.render('test.ejs');
+    res.render('client.ejs');
   });
-
+makeAsyncGPT();
 app.listen(3920);
 console.log('Server Listening');
