@@ -3,22 +3,25 @@ const h3_class = "!display: block; !font-size: 1.17em; !margin-top: 1em; !margin
 
 var fetchOptions = {
   method: "POST",
-  header: new Headers({
-      "Content-Type": "json",
+  headers: new Headers({
+      "Content-Type": "application/json",
   }),
 }
 
-const url = "http://localhost:8080/postRequest"
-var userData{}
-userData.userEmail = chrome.identity.getProfileUserInfo(function(info) { email = info.email; });
-fetchOptions.body = JSON.stringify(userData);
-fetch(url,fetchOptions)
-.then((response)=>{
+const url = "http://localhost:3920/postRequest";
+var userData = {};
+chrome.identity.getProfileUserInfo(function(info) {
+  userData.userEmail = info.email;
+  fetchOptions.body = JSON.stringify(userData);
+  fetch(url, fetchOptions)
+  .then((response)=>{
     return response.json();
-})
-.then((result)=>{
-    console.log("result");
-})
+  })
+  .then((result)=>{
+    console.log(result);
+  })
+});
+
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse)=>{
     if (request.command === 'add'){
