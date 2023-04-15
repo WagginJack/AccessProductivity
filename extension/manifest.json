@@ -1,0 +1,22 @@
+{
+    "manifest_version":3,
+    "name": "Add Header",
+    "description": "Add headers to pages using AI",
+    "version": "1.0",
+    "action": {
+        "default_popup": "test.html",
+        "default_icon": "download.jpg"
+    },
+    "background": {
+        "service_worker": "background.js"
+    },
+    "content_scripts": [
+        {
+          "js": ["content.js"],
+          "matches": [
+            "<all_urls>"
+          ]
+        }
+      ],
+    "permissions": ["activeTab", "scripting"]
+}
