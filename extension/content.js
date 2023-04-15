@@ -1,6 +1,6 @@
 const newHeaderText = "Hello World";
 const h3_class = "!display: block; !font-size: 1.17em; !margin-top: 1em; !margin-bottom: 1em; !margin-left: 0; !margin-right: 0; !font-weight: bold;"
-
+const chatGPTQuestion = "Can you insert <h3> elements for <p> paragraph elements in the above html doc such that the <h3> header elements improve the understanding of the paragraph elements? Do not alter the element content.";
 var fetchOptions = {
   method: "POST",
   headers: new Headers({
@@ -10,18 +10,6 @@ var fetchOptions = {
 
 const url = "http://localhost:3920/postRequest";
 var userData = {};
-chrome.identity.getProfileUserInfo(function(info) {
-  userData.userEmail = info.email;
-  fetchOptions.body = JSON.stringify(userData);
-  fetch(url, fetchOptions)
-  .then((response)=>{
-    return response.json();
-  })
-  .then((result)=>{
-    console.log(result);
-  })
-});
-
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse)=>{
     if (request.command === 'add'){
@@ -60,6 +48,31 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse)=>{
         console.log('No class found in the paragraph tags of the article body.');
       }
         const p_elements_in_article = Array.prototype.slice.call(document.getElementsByClassName(mostCommonClass));
+        const formattedGPTQuestion = getAllParagraphStrings(p_elements_in_article);
+        userData.gptQuestion = formattedGPTQuestion;
+        const chromeIdentity = chrome.identity;
+        //if (chromeIdentity === undefined) return;
+        userData.userEmail = 'testemail';
+        fetchOptions.body = JSON.stringify(userData);
+        fetch(url, fetchOptions)
+        .then((response)=>{
+          return JSON.parse(response);
+        })
+        .then((result)=>{
+          console.log(result);
+        })/*
+        chrome.identity.getProfileUserInfo({'accountStatus': 'ANY'}, function(info) {
+          userData.userEmail = info.email;
+          fetchOptions.body = JSON.stringify(userData);
+          fetch(url, fetchOptions)
+          .then((response)=>{
+            return JSON.parse(response);
+          })
+          .then((result)=>{
+            console.log(result);
+          })
+        });*/
+        /*
         console.log(getAllParagraphStrings(p_elements_in_article));
         p_elements_in_article.forEach((element)=>{
             const newHeader = document.createElement('h3');
@@ -68,7 +81,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse)=>{
             newHeader.setAttribute('class', 'accessproductivityheader');
             newHeader.appendChild(textNode);
             element.insertAdjacentElement('beforebegin', newHeader);
-        });    
+        });    */
       } else if (request.command === 'remove'){
       const accessProductivityHeaders = document.getElementsByClassName('accessproductivityheader') ;
       const header_elements = Array.prototype.slice.call(accessProductivityHeaders);
@@ -79,5 +92,5 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse)=>{
 });
 
 function getAllParagraphStrings(paragraphElementList){
-  return paragraphElementList.map((p_element)=>p_element.innerText).join('\n');
+  return `<p>${paragraphElementList.map((p_element)=>p_element.innerText).join('</p><p>')}</p>\n\n\n\n${chatGPTQuestion}`;
 }

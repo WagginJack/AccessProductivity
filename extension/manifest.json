@@ -18,5 +18,11 @@
           ]
         }
       ],
-    "permissions": ["activeTab", "scripting"]
+    "permissions": ["activeTab", "scripting", "identity", "identity.email"],
+    "oauth2": {
+      "client_id": "1091077324849-0c3hngf3erk73sb1tuveeq6d47ctlst0.apps.googleusercontent.com",
+      "scopes": [
+          "https://www.googleapis.com/auth/userinfo.email"
+      ]
+  }
 }
