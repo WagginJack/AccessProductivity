@@ -1,6 +1,5 @@
 const add_header_button = document.getElementById('header_button');
 
-
 let haveHeaders = false;
 
 add_header_button.addEventListener('click', ()=>{

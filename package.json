@@ -1,0 +1,26 @@
+{
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "openai": "^3.2.1"
+  },
+  "name": "accessproductivity",
+  "description": "",
+  "version": "1.0.0",
+  "main": "./server/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WagginJack/AccessProductivity.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/WagginJack/AccessProductivity/issues"
+  },
+  "homepage": "https://github.com/WagginJack/AccessProductivity#readme"
+}
