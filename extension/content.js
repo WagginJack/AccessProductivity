@@ -8,8 +8,8 @@ var fetchOptions = {
   }),
 }
 
-const url = "http://localhost:3920/postRequest";
-var userData = {};
+const url = "http://localhost:5050/users";
+let userData = {};
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse)=>{
     if (request.command === 'add'){
@@ -55,8 +55,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse)=>{
         userData.userEmail = 'testemail';
         fetchOptions.body = JSON.stringify(userData);
         fetch(url, fetchOptions)
-        .then((response)=>{
-          return JSON.parse(response);
+        .then(({body})=>{
+          // return JSON.parse(body);
         })
         .then((result)=>{
           console.log(result);
