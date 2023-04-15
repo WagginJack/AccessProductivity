@@ -5,14 +5,14 @@ import express from 'express';
 import users from "./routes/users.mjs";
 
 const app = express();
-const PORT = process.env.PORT || 5050;
+const PORT = process.env.NODE_ENV.PORT || 5050;
 app.use(cors());
 app.use(express.json());
 app.use("/users", users);
 
 
 const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: process.env.NODE_ENV.OPENAI_API_KEY,
 });
 const openai = new OpenAIApi(configuration);
 
