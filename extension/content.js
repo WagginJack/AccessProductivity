@@ -1,3 +1,5 @@
+const newHeaderText = "Hello World";
+const h3_class = "!display: block; !font-size: 1.17em; !margin-top: 1em; !margin-bottom: 1em; !margin-left: 0; !margin-right: 0; !font-weight: bold;"
 chrome.runtime.onMessage.addListener((request, sender, sendResponse)=>{
     if (request.command === 'add'){
         sendResponse({result: "success"});
@@ -34,14 +36,21 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse)=>{
       } else {
         console.log('No class found in the paragraph tags of the article body.');
       }
-
         const p_elements_in_article = Array.prototype.slice.call(document.getElementsByClassName(mostCommonClass));
         p_elements_in_article.forEach((element)=>{
-            const newHeader = document.createElement('h1');
-            const textNode = document.createTextNode("Hello World");
+            const newHeader = document.createElement('h3');
+            const textNode = document.createTextNode(newHeaderText);
+            newHeader.setAttribute('style', h3_class);
+            newHeader.setAttribute('class', 'accessproductivityheader');
             newHeader.appendChild(textNode);
             element.insertAdjacentElement('beforebegin', newHeader);
         });
         console.log(p_elements_in_article);
+    } else if (request.command === 'remove'){
+      const accessProductivityHeaders = document.getElementsByClassName('accessproductivityheader') ;
+      const header_elements = Array.prototype.slice.call(accessProductivityHeaders);
+      header_elements.forEach((element)=>{
+        element.remove();
+      });
     }
 });
