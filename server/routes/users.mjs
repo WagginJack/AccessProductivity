@@ -18,16 +18,15 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
   let collection = await db.collection("users");
   let newDocument = req.body;
-  let result = collection;
-  if(db.users.find({email: newDocument.email})) {
+  let result = await collection.insertOne(newDocument);
+  // if(collection.find({email: newDocument.email})) {
 
-  } else {
-    newDocument.hasAccess = true
-    newDocument.count = 0;
-    newDocument.isAdmin = false;
-    result = await collection.insertOne(newDocument);
-  }
-  
+  // } else {
+  //   newDocument.hasAccess = true
+  //   newDocument.count = 0;
+  //   newDocument.isAdmin = false;
+  //   result = await collection.insertOne(newDocument);
+  // }
   res.send(result).status(204);
 });
   
