@@ -1,6 +1,25 @@
 const newHeaderText = "Hello World";
 const h3_class = "!display: block; !font-size: 1.17em; !margin-top: 1em; !margin-bottom: 1em; !margin-left: 0; !margin-right: 0; !font-weight: bold;"
 
+var fetchOptions = {
+  method: "POST",
+  header: new Headers({
+      "Content-Type": "json",
+  }),
+}
+
+const url = "http://localhost:8080/postRequest"
+var userData{}
+userData.userEmail = chrome.identity.getProfileUserInfo(function(info) { email = info.email; });
+fetchOptions.body = JSON.stringify(userData);
+fetch(url,fetchOptions)
+.then((response)=>{
+    return response.json();
+})
+.then((result)=>{
+    console.log("result");
+})
+
 chrome.runtime.onMessage.addListener((request, sender, sendResponse)=>{
     if (request.command === 'add'){
         //makeAsyncGPT();
