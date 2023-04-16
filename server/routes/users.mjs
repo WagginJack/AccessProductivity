@@ -62,7 +62,7 @@ router.post("/caption", async (req, res) => {
   let newDocument = req.body;
   let isDuplicate = await collection.findOne({email: newDocument.email})
   let result = {}
-  
+  console.log(typeof newDocument.img)
   if(isDuplicate) {
     console.log('Duplicate spotted')
     collection.updateOne({email: newDocument.email}, {$inc: {count: 1}})

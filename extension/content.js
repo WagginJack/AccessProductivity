@@ -99,7 +99,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse)=>{
       console.log("grabbing images")
       for(let i = 0; i< images.length;i++){
       userData.img =  images[i].src;
-      console.log(userData.img);
+      console.log(userData);
       fetchOptions.body = JSON.stringify(userData);
       fetch(url+"/caption", fetchOptions)
       .then((result)=>{
