@@ -18,15 +18,18 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
   let collection = await db.collection("users");
   let newDocument = req.body;
-  let result = await collection.insertOne(newDocument);
-  // if(collection.find({email: newDocument.email})) {
-
-  // } else {
-  //   newDocument.hasAccess = true
-  //   newDocument.count = 0;
-  //   newDocument.isAdmin = false;
-  //   result = await collection.insertOne(newDocument);
-  // }
+  let q = await collection.findOne({email: newDocument.email})
+  let result = {}
+  console.log("email:", newDocument.email)
+  console.log(q)
+  if(q) {
+    console.log('Duplicate spotted')
+  } else {
+    newDocument.hasAccess = true
+    newDocument.count = 0;
+    newDocument.isAdmin = false;
+    result = await collection.insertOne(newDocument);
+  }
   res.send(result).status(204);
 });
   
