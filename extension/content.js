@@ -6,7 +6,7 @@ function insertHeaders(paragraphElements, gptResponse) {
   let responseNodesIndex = 0;
   let lastHeader = undefined;
   while (originalParagraphsIndex < paragraphElements.length){
-      if (allChildrenOfBody[responseNodesIndex].tagName === 'H1'){
+      if (allChildrenOfBody[responseNodesIndex].tagName === 'H3'){
           lastHeader = allChildrenOfBody[responseNodesIndex]
       } else if (allChildrenOfBody[responseNodesIndex].tagName === 'P'){
           if (lastHeader !== undefined) {
@@ -23,7 +23,7 @@ function insertHeaders(paragraphElements, gptResponse) {
 }
 const newHeaderText = "Hello World";
 const h3_class = "!display: block; !font-size: 1.17em; !margin-top: 1em; !margin-bottom: 1em; !margin-left: 0; !margin-right: 0; !font-weight: bold;"
-const chatGPTQuestion = "Can you insert <h3> elements for <p> paragraph elements in the above html doc such that the <h3> header elements improve the understanding of the paragraph elements? Do not alter the element content.";
+const chatGPTQuestion = "Can you insert <h3> elements for <p> paragraph elements in the above html doc such that the <h3> header elements improve the understanding of the paragraph elements? Do not alter or delete the <p> elements. Add infrequent headers on paragraphs that have similar topics with a <h3> tag. If you add a header, make sure there is 3 paragraphs after it";
 var fetchOptions = {
   method: "POST",
   headers: new Headers({

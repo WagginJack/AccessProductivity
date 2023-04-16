@@ -12,7 +12,7 @@ app.use("/users", users);
 
 
 const configuration = new Configuration({
-  apiKey: OPEN_KEY,
+  apiKey: process.env.OPEN_API_KEY,
 });
 const openai = new OpenAIApi(configuration);
 
@@ -20,6 +20,7 @@ export async function makeAsyncGPT(data){
   const completion = await openai.createChatCompletion({
     model: "gpt-3.5-turbo",
     messages: [{role: "user", content: data}],
+    max_tokens: 3000,
   });
   console.log(completion.data.choices[0].message);
   return completion.data.choices[0].message.content
