@@ -18,11 +18,11 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
   let collection = await db.collection("users");
   let newDocument = req.body;
-  let q = await collection.findOne({email: newDocument.email})
+  let isDuplicate = await collection.findOne({email: newDocument.email})
   let result = {}
   console.log("email:", newDocument.email)
-  console.log(q)
-  if(q) {
+  console.log(isDuplicate)
+  if(isDuplicate) {
     console.log('Duplicate spotted')
   } else {
     newDocument.hasAccess = true
