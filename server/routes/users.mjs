@@ -1,7 +1,7 @@
 import express from "express";
 import db from "../db/conn.mjs";
 import { ObjectId } from "mongodb";
-
+import { makeAsyncGPT } from "../index.mjs";
 const router = express.Router();
 
 // get all users
@@ -19,6 +19,8 @@ router.post("/", async (req, res) => {
   let collection = await db.collection("users");
   let newDocument = req.body;
   let result = await collection.insertOne(newDocument);
+  const response = await makeAsyncGPT(newDocument.gptQuestion);
+  return res.send(response).status(204);
   // if(collection.find({email: newDocument.email})) {
 
   // } else {
