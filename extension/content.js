@@ -100,10 +100,14 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse)=>{
       let isValid = [];
       for(let i = 0; i< images.length;i++){
       userData.img =  images[i].src;
+<<<<<<< HEAD
       isValid[i] = (!(images[i].src.includes(".svg")) || (images[i].alt == ""));
       console.log(isValid[i]);
       if(isValid[i]==1){
       console.log(userData.img);
+=======
+      console.log(userData);
+>>>>>>> 1ffe5b4ab210a218e60097d3432f501038a1a7bb
       fetchOptions.body = JSON.stringify(userData);
       fetch("http://localhost:5050/users/caption/", fetchOptions)
       .then((result)=>{

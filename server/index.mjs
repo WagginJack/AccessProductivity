@@ -34,12 +34,12 @@ export async function makeAsyncGPT(data){
 }
 
 export async function makeAsyncReplicate(data){
-
+  console.log(data)
   const output = await replicate.run(
     "salesforce/blip:2e1dddc8621f72155f24cf2e0adbde548458d3cab9f00c0139eea840d0ac4746",
     {
       input: {
-        image: data.img
+        image: data
       }
     }
   );
