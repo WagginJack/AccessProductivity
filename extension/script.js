@@ -3,6 +3,13 @@ const wantsHeadersButton = document.getElementById('wantsHeaders');
 const wantsCaptionsButton = document.getElementById('wantsCaptions');
 const submitButton = document.getElementById('submitButton');
 
+let userEmail;
+chrome.runtime.sendMessage({type: "getProfileUserInfo"}, function(response) {
+  console.log(response.email);
+  userEmail = response.email
+});
+
+
 function initialApply(){
     chrome.tabs.query({active: true, currentWindow: true}, (tabs)=>{
         chrome.tabs.sendMessage(tabs[0].id, {command: pref.wantsHeaders ? "add" : "remove" }, (response)=>console.log(response));
@@ -23,7 +30,7 @@ let pref = {
 };
 const url = '';
 const fetchOptions = '';
-fetch('http://localhost:5050/users/ahmni.pangjohnson@gmail.com/', {method: 'GET'})
+fetch(`http://localhost:5050/users/${userEmail}/`, {method: 'GET'})
 .then((result)=>{
   return result.json();
 }).then((data)=>{
@@ -44,11 +51,15 @@ wantsCaptionsButton.addEventListener('change', ()=>{
 })
 
 submitButton.addEventListener('click', ()=>{
+    pref.wantsHeaders = wantsHeadersButton.checked;
+    pref.wantsCaptions = wantsCaptionsButton.checked;
     fetch('http://localhost:5050/users/profile/', {method: 'POST',  headers: new Headers({
         "Content-Type": "application/json",
     }), body:JSON.stringify({
-        wantsCaptions: pref.wantsCaptions ? true : false,
-        wantsHeaders: pref.wantsHeaders ? true : false,
+        email: userEmail,
+        wantsCaptions: wantsCaptionsButton.checked ? true : false,
+        wantsHeaders: wantsHeadersButton.checked? true : false,
     })}).then(()=>initialApply())
     ;
+
 })

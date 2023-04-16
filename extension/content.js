@@ -90,6 +90,8 @@ function insertHeaders(paragraphElements, gptResponse) {
           lastHeader = allChildrenOfBody[responseNodesIndex]
       } else if (allChildrenOfBody[responseNodesIndex].tagName === 'P'){
           if (lastHeader !== undefined) {
+              lastHeader.style.fontStyle = 'italic';
+              lastHeader.style.textDecoration = "underline";
               paragraphElements[originalParagraphsIndex].insertAdjacentElement('beforebegin', lastHeader);
           }
           originalParagraphsIndex++;
