@@ -92,6 +92,33 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse)=>{
         element.remove();
       });
     }
+    else if (request.command === 'Describe'){
+      sendResponse({result: "success"});
+      // Find all image elements on the current webpage
+      const images = document.getElementsByTagName("img");
+      console.log("grabbing images")
+      for(let i = 0; i< images.length;i++){
+      userData.img =  images[i].src;
+      console.log(userData.img);
+      fetchOptions.body = JSON.stringify(userData);
+      fetch(url+"/caption", fetchOptions)
+      .then((result)=>{
+        return result.json();
+      }).then((data)=>{
+        console.log(data);
+        images[i].alt = data;
+        //insertHeaders(p_elements_in_article, data);
+      });
+     }console.log("done alt texting all images")
+    } else if (request.command === 'Remove'){
+      console.log("removing all alt tags")
+      const images = document.getElementsByTagName("img");
+
+      // Loop through each image element and get its source URL
+      for (let i = 0; i < images.length; i++) {
+      images[i].alt = "";
+      }
+  }
 });
 
 function getAllParagraphStrings(paragraphElementList){
@@ -105,30 +132,3 @@ chrome.runtime.sendMessage({type: "getProfileUserInfo"}, function(response) {
   userEmail = response.email
 });
 
-chrome.runtime.onMessage.addListener((request, sender, sendResponse)=>{
-  if (request.command === 'Describe'){
-      sendResponse({result: "success"});
-      // Find all image elements on the current webpage
-      const images = document.getElementsByTagName("img");
-
-      for(let i = 0; i< images.length;i++){
-      userData.URL =  images[i].src;
-      fetchOptions.body = JSON.stringify(userData);
-      fetch(url+"/caption", fetchOptions)
-      .then((result)=>{
-        return result.json();
-      }).then((data)=>{
-        console.log(data);
-        images[i].alt = data;
-        //insertHeaders(p_elements_in_article, data);
-      });
-     }
-    } else if (request.command === 'Remove'){
-      const images = document.getElementsByTagName("img");
-
-      // Loop through each image element and get its source URL
-      for (let i = 0; i < images.length; i++) {
-      images[i].alt = "";
-      }
-  }
-});

@@ -7,9 +7,9 @@ let haveImages = false;
 add_image_button.addEventListener('click', ()=>{
     
     chrome.tabs.query({active: true, currentWindow: true}, (tabs)=>{
-        chrome.tabs.sendMessage(tabs[0].id, {command: haveImages ? "Describe" : "Remove" }, (response)=>console.log(response));
+        chrome.tabs.sendMessage(tabs[0].id, {command: haveImages ? "Remove" : "Describe" }, (response)=>console.log(response));
         haveImages = !haveImages;
-        add_image_button.textContent = haveImages ? 'Describe Images' : 'Remove Images';
+        add_image_button.textContent = haveImages ? 'Remove Images' : 'Describe Images';
     })
     
 });
