@@ -118,18 +118,22 @@ function getAllParagraphStrings(paragraphElementList){
   return `<p>${paragraphElementList.map((p_element)=>p_element.innerText).join('</p><p>')}</p>\n\n\n\n${chatGPTQuestion}`;
 }
 
-chrome.runtime.sendMessage({type: "getAuthToken"}, function(response) {
-  alert(response.token);
-});
-function getUserInfo() {
-  return new Promise((resolve, reject) => {
-    let accountInformation;
-    chrome.identity.getProfileUserInfo((userInfo) => {
-        resolve(userInfo);
-        console.log("user info: ", userInfo);
-    });
-  });
-}
+// chrome.runtime.sendMessage({type: "getAuthToken"}, function(response) {
+//   alert(response.token);
+// });
 
-console.log(getUserInfo())
-console.log('EXTENSION TEST')
+chrome.runtime.sendMessage({type: "getProfileUserInfo"}, function(response) {
+  alert(response.email);
+});
+// function getUserInfo() {
+//   return new Promise((resolve, reject) => {
+//     let accountInformation;
+//     chrome.identity.getProfileUserInfo((userInfo) => {
+//         resolve(userInfo);
+//         console.log("user info: ", userInfo);
+//     });
+//   });
+// }
+
+// console.log(getUserInfo())
+// console.log('EXTENSION TEST')
