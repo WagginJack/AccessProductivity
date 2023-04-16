@@ -95,7 +95,7 @@ function insertHeaders(paragraphElements, gptResponse) {
   }
   return undefined;
 }
-let userData = {};
+
 
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse)=>{
