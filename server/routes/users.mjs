@@ -21,19 +21,39 @@ router.post("/", async (req, res) => {
   let isDuplicate = await collection.findOne({email: newDocument.email})
   let result = {}
   let userInfo = {}
-  // console.log("email:", newDocument.email)
-  // console.log(isDuplicate)
+  
   if(isDuplicate) {
     console.log('Duplicate spotted')
+    collection.updateOne({email: newDocument.email}, {$inc: {count: 1}})
   } else {
     userInfo.email = newDocument.email
     userInfo.hasAccess = true
     userInfo.count = 0;
     userInfo.isAdmin = false;
+    userInfo.wantsHeaders = true
+    userInfo.wantsCaptions = true
+    userInfo.wantsEmailGen = true
     result = await collection.insertOne(userInfo);
   }
   const response = await makeAsyncGPT(newDocument.gptQuestion);
   return res.json(response.replaceAll('\n','')).status(204);
 });
+
+router.post("/profile", async (req, res) => {
+  let collection = await db.collection("users");
+  let newDocument = req.body;
+  let doesExist = await collection.findOne({email: newDocument.email})
+  let result = {}
   
+  if(doesExist) {
+    collection.updateOne({email: newDocument.email},
+      { $set: {wantsHeaders: newDocument.wantsHeaders,
+        wantsCaptions: newDocument.wantsCaptions,
+        wantsEmailGen: newDocument.wantsEmailGen}
+      })
+  } else {
+    console.log('Not logged in')
+  }
+  return res.send(result).status(204);
+})
 export default router;
