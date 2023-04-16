@@ -20,7 +20,7 @@ export async function makeAsyncGPT(data){
   const completion = await openai.createChatCompletion({
     model: "gpt-3.5-turbo",
     messages: [{role: "user", content: data}],
-    max_tokens: 3000,
+    max_tokens: 4097 - data.length/4 - 100,
   });
   console.log(completion.data.choices[0].message);
   return completion.data.choices[0].message.content
