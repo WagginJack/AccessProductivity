@@ -13,6 +13,12 @@ router.get("/", async (req, res) => {
   
     res.send(results).status(200);
   });
+router.get("/:email", async (req, res) => {
+  let collection = await db.collection("users");
+  let results = await collection.findOne({email: req.params.email})
+
+  res.send(results).status(200);
+});
 
 // post new user, TODO(): get gpt input and call gpt api, get response
 router.post("/", async (req, res) => {
