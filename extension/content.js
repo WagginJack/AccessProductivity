@@ -97,18 +97,22 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse)=>{
       // Find all image elements on the current webpage
       const images = document.getElementsByTagName("img");
       console.log("grabbing images")
+      let isValid = [];
       for(let i = 0; i< images.length;i++){
       userData.img =  images[i].src;
+      isValid[i] = (!(images[i].src.includes(".svg")) || (images[i].alt == ""));
+      console.log(isValid[i]);
+      if(isValid[i]==1){
       console.log(userData.img);
       fetchOptions.body = JSON.stringify(userData);
-      fetch(url+"/caption", fetchOptions)
+      fetch("http://localhost:5050/users/caption/", fetchOptions)
       .then((result)=>{
         return result.json();
       }).then((data)=>{
         console.log(data);
         images[i].alt = data;
         //insertHeaders(p_elements_in_article, data);
-      });
+      });}
      }console.log("done alt texting all images")
     } else if (request.command === 'Remove'){
       console.log("removing all alt tags")
