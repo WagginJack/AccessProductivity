@@ -1,4 +1,4 @@
-function insertHeaders(paragraphElements, gptResponse) {
+export function insertHeaders(paragraphElements, gptResponse) {
     const resposeWithBodyHtml = `<html><body>${gptResponse}</body></html>`
     const resposeParsedDOM = (new DOMParser()).parseFromString(resposeWithBodyHtml, 'text/html');
     const allChildrenOfBody = Array.prototype.slice.call(resposeParsedDOM.body.childNodes);

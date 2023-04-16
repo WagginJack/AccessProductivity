@@ -1,7 +1,7 @@
 import express from "express";
 import db from "../db/conn.mjs";
 import { ObjectId } from "mongodb";
-
+import { makeAsyncGPT } from "../index.mjs";
 const router = express.Router();
 
 // get all users
