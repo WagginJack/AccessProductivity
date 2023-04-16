@@ -1,7 +1,6 @@
 
 const wantsHeadersButton = document.getElementById('wantsHeaders');
 const wantsCaptionsButton = document.getElementById('wantsCaptions');
-const wantsEmailGenButton = document.getElementById('wantsEmailGen');
 const submitButton = document.getElementById('submitButton');
 
 function initialApply(){
@@ -16,7 +15,6 @@ function initialApply(){
 function updateAll(){
     wantsHeadersButton.setAttribute('checked', pref.wantsHeaders);
     wantsCaptionsButton.setAttribute('checked', pref.wantsCaptions);
-    wantsEmailGenButton.setAttribute('checked', pref.wantsEmailGen);
 }
 let pref = {
     wantsHeaders: true,
@@ -30,7 +28,6 @@ fetch('http://localhost:5050/users/ahmni.pangjohnson@gmail.com/', {method: 'GET'
   return result.json();
 }).then((data)=>{
     pref.wantsCaptions = data.wantsCaptions;
-    pref.wantsEmailGen = data.wantsEmailGen;
     pref.wantsHeaders = data.wantsHeaders;
     console.log('got this from backend: ', data);
     updateAll();
@@ -52,7 +49,6 @@ submitButton.addEventListener('click', ()=>{
     }), body:JSON.stringify({
         wantsCaptions: pref.wantsCaptions ? true : false,
         wantsHeaders: pref.wantsHeaders ? true : false,
-        wantsEmailGen: pref.wantsEmailGen ? true : false
     })}).then(()=>initialApply())
     ;
 })
