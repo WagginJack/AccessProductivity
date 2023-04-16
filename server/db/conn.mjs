@@ -11,6 +11,6 @@ try {
   console.error(e);
 }
 
-//let db = conn.db(process.env.DB_NAME);
+let db = conn.db(process.env.DB_NAME);
 //console.log("DB_NAME =", process.env.DB_NAME);
-//export default db;
+export default db;
