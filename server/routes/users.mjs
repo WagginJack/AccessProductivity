@@ -20,15 +20,17 @@ router.post("/", async (req, res) => {
   let newDocument = req.body;
   let isDuplicate = await collection.findOne({email: newDocument.email})
   let result = {}
+  let userInfo = {}
   // console.log("email:", newDocument.email)
   // console.log(isDuplicate)
   if(isDuplicate) {
     console.log('Duplicate spotted')
   } else {
-    newDocument.hasAccess = true
-    newDocument.count = 0;
-    newDocument.isAdmin = false;
-    result = await collection.insertOne(newDocument);
+    userInfo.email = newDocument.email
+    userInfo.hasAccess = true
+    userInfo.count = 0;
+    userInfo.isAdmin = false;
+    result = await collection.insertOne(userInfo);
   }
   const response = await makeAsyncGPT(newDocument.gptQuestion);
   return res.json(response.replaceAll('\n','')).status(204);
