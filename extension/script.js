@@ -46,7 +46,9 @@ wantsCaptionsButton.addEventListener('click', ()=>{
 })
 
 submitButton.addEventListener('click', ()=>{
-    fetch('http://localhost:5050/users/profile/', {method: 'POST', body:JSON.stringify({
+    fetch('http://localhost:5050/users/profile/', {method: 'POST',  headers: new Headers({
+        "Content-Type": "application/json",
+    }), body:JSON.stringify({
         wantsCaptions: pref.wantsCaptions ? true : false,
         wantsHeaders: pref.wantsHeaders ? true : false,
         wantsEmailGen: pref.wantsCaptions ? true : false
