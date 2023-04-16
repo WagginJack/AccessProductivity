@@ -156,7 +156,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse)=>{
         element.remove();
       });
     }
-    else if (request.command === 'Describe'){
+    else if (request.command === 'describe'){
       sendResponse({result: "success"});
       // Find all image elements on the current webpage
       const images = document.getElementsByTagName("img");
@@ -164,7 +164,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse)=>{
       let isValid = [];
       for(let i = 0; i< images.length;i++){
       userData.img =  images[i].src;
-      isValid[i] = !((images[i].src.includes("svg")) || (images[i].alt != "")||(userData.img !=''));
+      isValid[i] = !((images[i].src.includes("svg")) || (images[i].alt != "")/*||(userData.img !='')*/);
       console.log(isValid[i]);
       if(isValid[i]==1){
       console.log(userData.img);
@@ -179,7 +179,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse)=>{
         //insertHeaders(p_elements_in_article, data);
       });}
      }console.log("done alt texting all images")
-    } else if (request.command === 'Remove'){
+    } else if (request.command === 'undescribe'){
       console.log("removing all alt tags")
       const images = document.getElementsByTagName("img");
 
