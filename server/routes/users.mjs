@@ -1,7 +1,7 @@
 import express from "express";
 import db from "../db/conn.mjs";
 import { ObjectId } from "mongodb";
-import { makeAsyncGPT } from "../index.mjs";
+import { makeAsyncGPT, makeAsyncReplicate } from "../index.mjs";
 const router = express.Router();
 
 // get all users
@@ -20,19 +20,13 @@ router.post("/", async (req, res) => {
   let newDocument = req.body;
   let isDuplicate = await collection.findOne({email: newDocument.email})
   let result = {}
-  let userInfo = {}
+  
   
   if(isDuplicate) {
     console.log('Duplicate spotted')
     collection.updateOne({email: newDocument.email}, {$inc: {count: 1}})
   } else {
-    userInfo.email = newDocument.email
-    userInfo.hasAccess = true
-    userInfo.count = 0;
-    userInfo.isAdmin = false;
-    userInfo.wantsHeaders = true
-    userInfo.wantsCaptions = true
-    userInfo.wantsEmailGen = true
+    let userInfo = initUser(newDocument.email)
     result = await collection.insertOne(userInfo);
   }
   const response = await makeAsyncGPT(newDocument.gptQuestion);
@@ -56,4 +50,33 @@ router.post("/profile", async (req, res) => {
   }
   return res.send(result).status(204);
 })
+
+router.post("/caption", async (req, res) => {
+  let collection = await db.collection("users");
+  let newDocument = req.body;
+  let isDuplicate = await collection.findOne({email: newDocument.email})
+  let result = {}
+  
+  if(isDuplicate) {
+    console.log('Duplicate spotted')
+    collection.updateOne({email: newDocument.email}, {$inc: {count: 1}})
+  } else {
+    let userInfo = initUser(newDocument.email)
+    result = await collection.insertOne(userInfo);
+  }
+  const response = await makeAsyncReplicate(newDocument.img);
+  return res.json(response).status(204);// maybe get response.title?
+})
+
+function initUser(email){
+  let userInfo = {}
+  userInfo.email = email
+  userInfo.hasAccess = true
+  userInfo.count = 0;
+  userInfo.isAdmin = false;
+  userInfo.wantsHeaders = true
+  userInfo.wantsCaptions = true
+  userInfo.wantsEmailGen = true
+  return userInfo
+}
 export default router;
