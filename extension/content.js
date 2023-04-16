@@ -30,6 +30,10 @@ var fetchOptions = {
   }),
 }
 
+const url = "http://localhost:5050/users";
+let userData = {};
+
+
 chrome.runtime.onMessage.addListener((request, sender, sendResponse)=>{
     if (request.command === 'add'){
         sendResponse({result: "success"});
