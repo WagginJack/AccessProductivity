@@ -1,4 +1,10 @@
 let userData = {}
+let userEmail;
+chrome.runtime.sendMessage({type: "getProfileUserInfo"}, function(response) {
+  console.log(response.email);
+  userEmail = response.email
+});
+
 
 const url = "http://localhost:5050/users/"
 const chatGPTQuestion = "Can you insert <h3> elements for <p> paragraph elements in the above html doc such that the <h3> header elements improve the understanding of the paragraph elements? Do not alter or delete the <p> elements. Add infrequent headers on paragraphs that have similar topics with a <h3> tag. If you add a header, make sure there is 3 paragraphs after it";
@@ -46,7 +52,7 @@ if (mostCommonClass !== "") {
 
   const chromeIdentity = chrome.identity;
   //if (chromeIdentity === undefined) return;
-  userData.email = 'ahmni.pangjohnson@gmail.com';
+  userData.email = userEmail;
 
   fetchOptions.body = JSON.stringify(userData);
   fetch(url, fetchOptions)
@@ -139,8 +145,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse)=>{
 
         const chromeIdentity = chrome.identity;
         //if (chromeIdentity === undefined) return;
-        userData.email = 'ahmni.pangjohnson@gmail.com';
-
+        userData.email = userEmail;
+        
         fetchOptions.body = JSON.stringify(userData);
         fetch(url, fetchOptions)
         .then((result)=>{
@@ -194,10 +200,4 @@ function getAllParagraphStrings(paragraphElementList){
   return `<p>${paragraphElementList.map((p_element)=>p_element.innerText).join('</p><p>')}</p>\n\n\n\n${chatGPTQuestion}`;
 }
 
-
-let userEmail;
-chrome.runtime.sendMessage({type: "getProfileUserInfo"}, function(response) {
-  console.log(response.email);
-  userEmail = response.email
-});
 
