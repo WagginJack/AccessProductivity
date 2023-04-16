@@ -124,3 +124,4 @@ chrome.runtime.sendMessage({type: "getProfileUserInfo"}, function(response) {
   console.log(response.email);
   userEmail = response.email
 });
+
