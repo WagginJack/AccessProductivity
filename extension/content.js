@@ -1,3 +1,4 @@
+let userData = {}
 function insertHeaders(paragraphElements, gptResponse) {
   const resposeWithBodyHtml = `<html><body>${gptResponse}</body></html>`
   const resposeParsedDOM = (new DOMParser()).parseFromString(resposeWithBodyHtml, 'text/html');
@@ -5,6 +6,7 @@ function insertHeaders(paragraphElements, gptResponse) {
   let originalParagraphsIndex = 0;
   let responseNodesIndex = 0;
   let lastHeader = undefined;
+  
   while (originalParagraphsIndex < paragraphElements.length){
       if (allChildrenOfBody[responseNodesIndex].tagName === 'H3'){
           lastHeader = allChildrenOfBody[responseNodesIndex]
@@ -21,7 +23,7 @@ function insertHeaders(paragraphElements, gptResponse) {
   }
   return undefined;
 }
-
+const url = "http://localhost:5050/users/"
 const chatGPTQuestion = "Can you insert <h3> elements for <p> paragraph elements in the above html doc such that the <h3> header elements improve the understanding of the paragraph elements? Do not alter or delete the <p> elements. Add infrequent headers on paragraphs that have similar topics with a <h3> tag. If you add a header, make sure there is 3 paragraphs after it";
 var fetchOptions = {
   method: "POST",
@@ -71,7 +73,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse)=>{
 
         const chromeIdentity = chrome.identity;
         //if (chromeIdentity === undefined) return;
-        userData.email = userEmail;
+        userData.email = 'ahmni.pangjohnson@gmail.com';
 
         fetchOptions.body = JSON.stringify(userData);
         fetch(url, fetchOptions)

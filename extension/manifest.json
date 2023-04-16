@@ -19,7 +19,7 @@
           ]
         }
       ],
-    "permissions": ["activeTab", "scripting", "identity", "identity.email", "identity.profile"],
+    "permissions": ["activeTab", "scripting", "identity", "identity.email"],
     "oauth2": {
       "client_id": "447883838986-au23go5a7ak4f37m30u1uulviq1igrdn.apps.googleusercontent.com",
       "scopes": [
