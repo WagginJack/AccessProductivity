@@ -101,7 +101,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse)=>{
       for(let i = 0; i< images.length;i++){
       userData.img =  images[i].src;
 <<<<<<< HEAD
-      isValid[i] = (!(images[i].src.includes(".svg")) || (images[i].alt == ""));
+      isValid[i] = (!(images[i].src.includes(".svg")) && (images[i].alt == ""));
       console.log(isValid[i]);
       if(isValid[i]==1){
       console.log(userData.img);
