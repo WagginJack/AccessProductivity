@@ -75,7 +75,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse)=>{
         userData.gptQuestion = formattedGPTQuestion;
         const chromeIdentity = chrome.identity;
         //if (chromeIdentity === undefined) return;
-        userData.userEmail = 'testemail';
+        userData.email = userEmail;
         fetchOptions.body = JSON.stringify(userData);
         fetch(url, fetchOptions)
         .then((result)=>{
@@ -85,7 +85,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse)=>{
           insertHeaders(p_elements_in_article, data);
         });/*
         chrome.identity.getProfileUserInfo({'accountStatus': 'ANY'}, function(info) {
-          userData.userEmail = info.email;
+          userData.email = info.email;
           fetchOptions.body = JSON.stringify(userData);
           fetch(url, fetchOptions)
           .then((response)=>{
@@ -117,3 +117,10 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse)=>{
 function getAllParagraphStrings(paragraphElementList){
   return `<p>${paragraphElementList.map((p_element)=>p_element.innerText).join('</p><p>')}</p>\n\n\n\n${chatGPTQuestion}`;
 }
+
+
+let userEmail;
+chrome.runtime.sendMessage({type: "getProfileUserInfo"}, function(response) {
+  console.log(response.email);
+  userEmail = response.email
+});
