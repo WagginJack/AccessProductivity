@@ -21,6 +21,10 @@ function insertHeaders(paragraphElements, gptResponse) {
   }
   return undefined;
 }
+
+
+
+
 const newHeaderText = "Hello World";
 const h3_class = "!display: block; !font-size: 1.17em; !margin-top: 1em; !margin-bottom: 1em; !margin-left: 0; !margin-right: 0; !font-weight: bold;"
 const chatGPTQuestion = "Can you insert <h3> elements for <p> paragraph elements in the above html doc such that the <h3> header elements improve the understanding of the paragraph elements? Do not alter or delete the <p> elements. Add infrequent headers on paragraphs that have similar topics with a <h3> tag. If you add a header, make sure there is 3 paragraphs after it";
@@ -125,3 +129,30 @@ chrome.runtime.sendMessage({type: "getProfileUserInfo"}, function(response) {
   userEmail = response.email
 });
 
+chrome.runtime.onMessage.addListener((request, sender, sendResponse)=>{
+  if (request.command === 'Describe'){
+      sendResponse({result: "success"});
+      // Find all image elements on the current webpage
+      const images = document.getElementsByTagName("img");
+
+      for(let i = 0; i< images.length;i++){
+      userData.URL =  images[i].src;
+      fetchOptions.body = JSON.stringify(userData);
+      fetch(url+"/caption", fetchOptions)
+      .then((result)=>{
+        return result.json();
+      }).then((data)=>{
+        console.log(data);
+        images[i].alt = data;
+        //insertHeaders(p_elements_in_article, data);
+      });
+     }
+    } else if (request.command === 'Remove'){
+      const images = document.getElementsByTagName("img");
+
+      // Loop through each image element and get its source URL
+      for (let i = 0; i < images.length; i++) {
+      images[i].alt = "";
+      }
+  }
+});

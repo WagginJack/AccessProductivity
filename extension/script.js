@@ -1,6 +1,18 @@
 const add_header_button = document.getElementById('header_button');
+const add_image_button = document.getElementById('image_button');
 
 let haveHeaders = false;
+let haveImages = false;
+
+add_image_button.addEventListener('click', ()=>{
+    
+    chrome.tabs.query({active: true, currentWindow: true}, (tabs)=>{
+        chrome.tabs.sendMessage(tabs[0].id, {command: haveImages ? "Describe" : "Remove" }, (response)=>console.log(response));
+        haveImages = !haveImages;
+        add_image_button.textContent = haveImages ? 'Describe Images' : 'Remove Images';
+    })
+    
+});
 
 add_header_button.addEventListener('click', ()=>{
     
