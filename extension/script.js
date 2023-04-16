@@ -31,18 +31,18 @@ fetch('http://localhost:5050/users/ahmni.pangjohnson@gmail.com/', {method: 'GET'
     pref.wantsCaptions = data.wantsCaptions;
     pref.wantsEmailGen = data.wantsEmailGen;
     pref.wantsHeaders = data.wantsHeaders;
-    console.log(pref);
+    console.log('got this from backend: ', data);
     updateAll();
     initialApply();
 });
 
 
-wantsHeadersButton.addEventListener('click', ()=>{
-    pref.wantsHeaders = !pref.wantsHeaders;
+wantsHeadersButton.addEventListener('change', ()=>{
+    pref.wantsHeaders = !wantsHeadersButton.checked;
 });
 
-wantsCaptionsButton.addEventListener('click', ()=>{
-    pref.wantsCaptions = !pref.wantsCaptions;
+wantsCaptionsButton.addEventListener('change', ()=>{
+    pref.wantsCaptions = !wantsCaptionsButton.checked;
 })
 
 submitButton.addEventListener('click', ()=>{
@@ -51,7 +51,7 @@ submitButton.addEventListener('click', ()=>{
     }), body:JSON.stringify({
         wantsCaptions: pref.wantsCaptions ? true : false,
         wantsHeaders: pref.wantsHeaders ? true : false,
-        wantsEmailGen: pref.wantsCaptions ? true : false
+        wantsEmailGen: pref.wantsEmailGen ? true : false
     })}).then(()=>initialApply())
     ;
 })
